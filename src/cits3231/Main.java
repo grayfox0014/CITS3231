@@ -27,7 +27,8 @@ public class Main {
      */
     private static void printUsage() {
         System.err.println("Usage: Developer [-l,--library]" + 
-                "\t<infile>" +
+                "[-h --hostname] [-p --portnumber]" +
+                 "<infile>" +
                  "Please use option for each additional library.");
     }
     
@@ -38,6 +39,8 @@ public class Main {
     public static void main(String[] args) {
         CmdLineParser parser = new CmdLineParser();
         CmdLineParser.Option opt = parser.addStringOption('l', "Library");  // Create a command line option that will specify the library needed.
+        CmdLineParser.Option op2 = parser.addStringOption('h', "Hostname");   // Create a command line option that will specify the hostname.
+        CmdLineParser.Option opt3 = parser.addIntegerOption('p', "Port");    // Create a command line option that will specify the port number.
         
         try {
             parser.parse(args); // Check our command arguments.
@@ -50,9 +53,15 @@ public class Main {
             
         Vector libnames = parser.getOptionValues(opt);  // Gather all libraries specified into a vector. 
         
-        Object[] libs = libnames.toArray(); // Convert to an array of objects.
+        String hostname = (String)parser.getOptionValue(op2);   // Get hostname.
+        Integer portnum = (Integer)parser.getOptionValue(opt3, new Integer(0)); // Get portnum or set 0 if not specified.
         String[] file = parser.getRemainingArgs();  // Get in and out file.
         
-        Developer dev = new Developer(file[0]); // Create an instance of developer and pass the file.
+        System.out.println("libs: " + libnames.toString() +
+                "\nhostname: " + hostname +
+                "\nPort: " + portnum +
+                "\nfile: " + file[0]);
+        
+        Developer dev = new Developer(hostname, portnum, file[0]); // Create an instance of developer and pass the hostname, portnum and file.
     }
 }

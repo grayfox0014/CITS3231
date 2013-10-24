@@ -9,6 +9,8 @@ import java.io.*;   // Import java standard I/O library.
 import java.net.*;   // Import java networking library.
 import javax.net.ssl.*;  // Import java ssl library.
 import java.security.*; // Import java security library.
+import javax.security.cert.X509Certificate;
+import java.security.KeyStore;
 import java.util.*; // Import java util library.
 import javax.crypto.*;  // Import java crypto library.
 
@@ -18,13 +20,17 @@ import javax.crypto.*;  // Import java crypto library.
  */
 public class Developer {
 
+    String hostname;    // Declare a variable to hold the hostname.
+    int portnum;    // Declare a variable to hold the portnum;
     String infile;  // Declare a variable to hold the dev clients file.
 
     /**
      * This is the constructor method and will be used to init.
      * @param infile The specified file from developer.
      */
-    public Developer(String infile) {
+    public Developer(String hostname, int portnum, String infile) {
+        this.hostname = hostname;   // Copy variable.
+        this.portnum = portnum; // Copy variable.
         this.infile = infile;   // Copy variable.
     }
 
@@ -32,18 +38,6 @@ public class Developer {
      * This method will attempt to connect to the linkbroker.
      */
     void client_connect() {
-        try {
-            Socket sock = new Socket("localhost", 3231);    // Init a new socket set to local host on port 3231.
-            BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));   // Set up buffered reader so we can read what we are given through network.
-            System.out.print("Received string: '"); 
-
-            while (!in.ready()) { } // Wait.
-            System.out.println(in.readLine()); // Read one line and output it
-            System.out.print("'\n");
-            in.close(); // Close
-        } catch (Exception e) {
-            System.out.println("Connection failed\n");
-        }
+    
     }
-}
 }
